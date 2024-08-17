@@ -1,0 +1,49 @@
+{
+  "name": "bullwork",
+  "version": "1.0.0",
+  "description": "Framework para backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --detectOpenHandles",
+    "generate:module": "ts-node ./cli/index.ts generate:module",
+    "remove:module": "ts-node ./cli/index.ts remove:module",
+    "prisma:init": "prisma init",
+    "prisma:generate": "prisma generate --schema=src/orm/schema.prisma",
+    "prisma:migrate:dev": "dotenv -e ./config/.env.development -- prisma migrate dev --schema=src/orm/schema.prisma",
+    "prisma:migrate:prod": "dotenv -e ./config/.env.production -- prisma migrate deploy --schema=src/orm/schema.prisma",
+    "dev": "nodemon --watch ./src --ext ts --exec \"pnpm exec ts-node -r tsconfig-paths/register -r dotenv/config ./index.ts dotenv_config_path=./config/.env.development\"",
+    "qa": "ts-node -r tsconfig-paths/register -r dotenv/config index.ts dotenv_config_path=./config/.env.qa",
+    "prod": "ts-node -r tsconfig-paths/register -r dotenv/config index.ts dotenv_config_path=./config/.env.production"
+  },
+  "keywords": [
+    "Framework",
+    "javascript",
+    "backend",
+    "typescript",
+    "node"
+  ],
+  "author": "Diego Toro Reyes <dtoro.a.s@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "@types/node": "^22.4.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "reflect-metadata": "^0.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.18.0",
+    "ts-jest": "^29.2.4",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.5.4"
+  }
+}
