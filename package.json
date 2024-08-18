@@ -1,12 +1,10 @@
 {
   "name": "bullwork",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Framework para backend",
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "generate:module": "ts-node ./cli/index.ts generate:module",
-    "remove:module": "ts-node ./cli/index.ts remove:module",
     "prisma:init": "prisma init",
     "prisma:generate": "prisma generate --schema=src/orm/schema.prisma",
     "prisma:migrate:dev": "dotenv -e ./config/.env.development -- prisma migrate dev --schema=src/orm/schema.prisma",
