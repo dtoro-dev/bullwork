@@ -23,12 +23,29 @@ export class Server {
   public loadRoutes(): void {
     const routesPath = path.join(__dirname, '..', 'app');
 
-    fs.readdirSync(routesPath).forEach((folder) => {
+    if (!fs.existsSync(routesPath)) {
+      console.log('No modules have been created yet.');
+      console.log('Use the following commands to manage modules:');
+      console.log('- To create a module: bull run generate:module <module-name>');
+      console.log('- To remove a module: bull run remove:module <module-name>');
+      return;
+    }
+
+    const folders = fs.readdirSync(routesPath);
+
+    if (folders.length === 0) {
+      console.log('No modules have been created yet.');
+      console.log('Use the following commands to manage modules:');
+      console.log('- To create a module: bull run generate:module <module-name>');
+      console.log('- To remove a module: bull run remove:module <module-name>');
+      return;
+    }
+
+    folders.forEach((folder) => {
       const routeFilePath = path.join(routesPath, folder, `${folder}.routes.ts`);
 
       if (fs.existsSync(routeFilePath)) {
         const moduleRoutes = require(routeFilePath).default;
-
         this.app.use(`/${folder}`, moduleRoutes);
       }
     });
