@@ -13,7 +13,10 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@core/*": ["src/core/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@decorators/*": ["src/decorators/*"],
+      "@swagger/*": ["src/swagger/*"],
+      "@types/*": ["src/types/*"],
     }
   },
   "include": ["src/**/*", "src/tests/**/*"],
