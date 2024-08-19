@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import fs from 'fs';
 import path from 'path';
+import cors from 'cors';
 
 export class Server {
   private app: Application;
@@ -8,11 +9,22 @@ export class Server {
 
   constructor() {
     this.app = express();
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cors({
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }))
+  }
+
+  public getApp(): Application {
+    return this.app;
   }
 
   public start(port: number): void {
     this.serverInstance = this.app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+      console.log(`Server running on ${port}`);
     });
   }
 

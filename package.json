@@ -2,16 +2,16 @@
   "name": "bullwork",
   "version": "1.0.1",
   "description": "Framework para backend",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest --detectOpenHandles",
     "prisma:init": "prisma init",
     "prisma:generate": "prisma generate --schema=src/orm/schema.prisma",
     "prisma:migrate:dev": "dotenv -e ./config/.env.development -- prisma migrate dev --schema=src/orm/schema.prisma",
     "prisma:migrate:prod": "dotenv -e ./config/.env.production -- prisma migrate deploy --schema=src/orm/schema.prisma",
-    "dev": "nodemon --watch ./src --ext ts --exec \"pnpm exec ts-node -r tsconfig-paths/register -r dotenv/config ./index.ts dotenv_config_path=./config/.env.development\"",
-    "qa": "ts-node -r tsconfig-paths/register -r dotenv/config index.ts dotenv_config_path=./config/.env.qa",
-    "prod": "ts-node -r tsconfig-paths/register -r dotenv/config index.ts dotenv_config_path=./config/.env.production"
+    "dev": "nodemon --watch ./src --ext ts --exec \"pnpm exec ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.development\"",
+    "qa": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.qa",
+    "prod": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.production"
   },
   "keywords": [
     "Framework",
@@ -25,6 +25,7 @@
   "dependencies": {
     "@prisma/client": "^5.18.0",
     "@types/node": "^22.4.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "reflect-metadata": "^0.2.2",
@@ -33,6 +34,7 @@
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/swagger-jsdoc": "^6.0.4",
