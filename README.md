@@ -92,6 +92,26 @@ bull run remove:module <module-name>
 - Node.js >= 20.15.1 (LTS)
 - `pnpm` instalado globalmente.
 
+## Changelog
+
+### Versión 1.0.2
+- **Nuevo**: Implementación de decoradores personalizados como `@Body`, `@Param`, etc.
+- **Mejora**: Eliminación de archivos de rutas independientes; las rutas ahora son gestionadas automáticamente por los decoradores.
+- **Corrección**: Resolución de un problema con la inyección de dependencias en servicios.
+
+## Actualización a la versión 1.0.2
+
+1. Actualiza tus dependencias:
+```bash
+npm install bullwork@1.0.2 bulljs-cli@1.0.6
+```
+2. Asegúrate de eliminar cualquier archivo de rutas independiente. Las rutas ahora son manejadas automáticamente por los decoradores en los controladores.
+3. Revisa las nuevas funcionalidades en la documentación para aprovechar al máximo las mejoras.
+
+## Notas de la Versión
+
+Esta versión introduce una nueva forma de manejar rutas y dependencias mediante decoradores personalizados, lo que simplifica la configuración y mantenimiento del código. Recomendamos revisar la documentación actualizada para adaptarse a estos cambios.
+
 ### Contribución
 Si deseas contribuir a este proyecto, sigue estos pasos:
 
