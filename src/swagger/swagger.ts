@@ -6,8 +6,8 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API Documentation",
-      version: "1.0.0",
+      title: process.env.SW_NAME_DOC || "undefined",
+      version: process.env.SW_VERSION_DOC || "undefined",
     },
   },
   apis: ["./src/app/**/*.routes.ts", "./src/app/**/*.swagger.ts"],
