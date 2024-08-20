@@ -84,4 +84,23 @@ export function Body(): ParameterDecorator {
   };
 }
 
+export function Headers(headerName?: string): ParameterDecorator {
+  return (target, propertyKey, parameterIndex) => {
+    if (propertyKey === undefined) {
+      throw new Error("Property key is undefined");
+    }
+
+    const existingParams =
+      Reflect.getMetadata("params", target, propertyKey) || [];
+
+    existingParams.push({
+      index: parameterIndex,
+      type: "header",
+      name: headerName,
+    });
+
+    Reflect.defineMetadata("params", existingParams, target, propertyKey);
+  };
+}
+
 export { Response as ResType, Request as ReqType } from "express";
