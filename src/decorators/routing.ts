@@ -1,13 +1,5 @@
 import 'reflect-metadata';
 
-export function Get(path: string): MethodDecorator {
-  return (target, propertyKey) => {
-    const routes = Reflect.getMetadata('routes', target) || [];
-    routes.push({ method: 'get', path, handler: propertyKey });
-    Reflect.defineMetadata('routes', routes, target);
-  };
-}
-
 function createMethodDecorator(method: string) {
   return function(path: string): MethodDecorator {
     return (target, propertyKey) => {
@@ -18,6 +10,7 @@ function createMethodDecorator(method: string) {
   };
 }
 
+export const Get = createMethodDecorator('get');
 export const Post = createMethodDecorator('post');
 export const Put = createMethodDecorator('put');
 export const Patch = createMethodDecorator('patch');

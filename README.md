@@ -77,6 +77,11 @@ http://localhost:5000/api-docs
 
 Esta documentación incluirá todos los endpoints disponibles en tu proyecto. Cada vez que generes un nuevo módulo, Swagger actualizará automáticamente la documentación para reflejar los endpoints CRUD del módulo creado.
 
+ - Inicia el entorno de desarrollo.
+```bash
+bull run dev
+```
+
  - Genera un nuevo módulo en el proyecto.
 ```bash
 bull run generate:module <module-name>
@@ -85,6 +90,21 @@ bull run generate:module <module-name>
  - Elimina un módulo existente del proyecto.
 ```bash
 bull run remove:module <module-name>
+```
+
+ - Crear build
+```bash
+bull build
+```
+
+ - Instala una nueva dependencia
+```bash
+bull install <dependency-name>
+```
+
+ - Elimina una dependencia
+```bash
+bull remove <dependency-name>
 ```
 
 ### Requisitos
