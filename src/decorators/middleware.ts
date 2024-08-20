@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
 export function Middleware(middleware: Function): MethodDecorator {
   return (target, propertyKey) => {
@@ -27,7 +27,17 @@ export function resolveParams(
         params[param.index] = req.query[param.name];
         break;
       case "body":
-        params[param.index] = req.body;
+        const dtoInstance = new param.dtoClass();
+        const errors = validateDto(dtoInstance);
+        
+        Object.assign(dtoInstance, req.body);
+
+        if (errors.length > 0) {
+          res.status(400).json({ errors });
+          return null;
+        }
+        
+        params[param.index] = dtoInstance;
         break;
       case "res":
         params[param.index] = res;
@@ -46,4 +56,70 @@ export function resolveParams(
   });
 
   return params;
+}
+
+function validateDto(dtoInstance: any): string[] {
+  const errors: string[] = [];
+
+  for (const propertyKey in dtoInstance) {
+    const validations = Reflect.getMetadata("validations", dtoInstance, propertyKey) || [];
+
+    const value = dtoInstance[propertyKey];
+
+    let isOptional = false;
+
+    validations.forEach((validation: any) => {
+      if (validation.type === "optional") {
+        isOptional = true;
+      }
+    });
+
+    if (isOptional && (value === undefined || value === null)) {
+      continue;
+    }
+
+    validations.forEach((validation: any) => {
+      switch (validation.type) {
+        case "string":
+          if (typeof value !== "string") {
+            errors.push(`${propertyKey} must be a string.`);
+          }
+          break;
+        case "int":
+          if (!Number.isInteger(value)) {
+            errors.push(`${propertyKey} must be an integer.`);
+          }
+          break;
+        case "email":
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            errors.push(`${propertyKey} must be a valid email.`);
+          }
+          break;
+        case "minLength":
+          if (typeof value === "string" && value.length < validation.value) {
+            errors.push(`${propertyKey} must be at least ${validation.value} characters long.`);
+          }
+          break;
+        case "maxLength":
+          if (typeof value === "string" && value.length > validation.value) {
+            errors.push(`${propertyKey} must be no more than ${validation.value} characters long.`);
+          }
+          break;
+        case "min":
+          if (typeof value === "number" && value < validation.value) {
+            errors.push(`${propertyKey} must be at least ${validation.value}.`);
+          }
+          break;
+        case "max":
+          if (typeof value === "number" && value > validation.value) {
+            errors.push(`${propertyKey} must be no more than ${validation.value}.`);
+          }
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  return errors;
 }

@@ -49,7 +49,12 @@ export function registerRoutes(app: Application): void {
         const { method, path, handler } = route;
         const routeHandler = async (req: Request, res: Response, next: NextFunction) => {
           try {
-            const args = resolveParams(controllerInstance, handler, req, res);
+            const args = resolveParams(controllerInstance, handler, req, res);    
+            
+            if (!args || res.statusCode === 400) {
+              return;
+            }
+
             const result = await (controllerInstance as any)[handler](...args);
             if (!res.headersSent) {
               res.json(result);
