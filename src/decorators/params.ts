@@ -61,26 +61,17 @@ export function Query(paramName: string): ParameterDecorator {
   };
 }
 
-export function Body(): ParameterDecorator {
+export function Body(dtoClass: any): ParameterDecorator {
   return (target, propertyKey, parameterIndex) => {
     if (propertyKey === undefined) {
       throw new Error("Property key is undefined");
     }
 
     const existingParams =
-      Reflect.getMetadata(
-        "params",
-        target,
-        propertyKey
-      ) || [];
+      Reflect.getMetadata("params", target, propertyKey) || [];
 
-    existingParams.push({ index: parameterIndex, type: "body" });
-    Reflect.defineMetadata(
-      "params",
-      existingParams,
-      target,
-      propertyKey
-    );
+    existingParams.push({ index: parameterIndex, type: "body", dtoClass });
+    Reflect.defineMetadata("params", existingParams, target, propertyKey);
   };
 }
 

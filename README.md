@@ -26,9 +26,59 @@ Bullwork es un framework ligero para backend basado en Node.js, Express, y TypeS
 ## Características
 
 - **Arquitectura Modular**: Soporte para módulos que permiten una organización clara y escalable del código.
+- **Decoradores Personalizados**: Implementación de decoradores como `@Body`, `@Param`, `@Query`, `@Headers`, y más, para una gestión más limpia y declarativa de las rutas y parámetros.
 - **Integración con Prisma**: Manejo avanzado de bases de datos con Prisma, ofreciendo una API limpia y segura para interactuar con SQLite u otros sistemas de bases de datos.
 - **Documentación API con Swagger**: Generación automática de documentación API utilizando Swagger.
 - **CLI Dedicada**: Bullwork se gestiona a través de la CLI de BullJS, que facilita la creación de proyectos y la administración de módulos.
+
+## Decoradores Personalizados
+
+Bullwork incluye un conjunto de decoradores personalizados para simplificar la gestión de rutas, parámetros, dependencias y validaciones en tu aplicación:
+
+### Decoradores de Métodos
+
+- **@Get(path: string)**: Define un endpoint HTTP GET en la ruta especificada.
+- **@Post(path: string)**: Define un endpoint HTTP POST en la ruta especificada.
+- **@Put(path: string)**: Define un endpoint HTTP PUT en la ruta especificada.
+- **@Patch(path: string)**: Define un endpoint HTTP PATCH en la ruta especificada.
+- **@Delete(path: string)**: Define un endpoint HTTP DELETE en la ruta especificada.
+
+### Decoradores de Parámetros
+
+- **@Body(dtoClass: any)**: Extrae y valida el cuerpo de la solicitud basado en la clase DTO proporcionada.
+- **@Param(paramName: string)**: Extrae un parámetro de la ruta.
+- **@Query(paramName: string)**: Extrae parámetros de la query string.
+- **@Headers(headerName?: string)**: Extrae un header específico o todos los headers si no se especifica un nombre.
+- **@Res**: Inyecta el objeto de respuesta de Express, utilizando un decorador personalizado.
+- **@Req**: Inyecta el objeto de solicitud de Express, utilizando un decorador personalizado.
+
+### Decoradores de Validación
+
+Bullwork incluye varios decoradores de validación para asegurar que los datos recibidos cumplan con las expectativas antes de ser procesados:
+
+- **@IsString()**: Valida que el valor de la propiedad sea una cadena de texto.
+- **@IsInt()**: Valida que el valor de la propiedad sea un número entero.
+- **@IsEmail()**: Valida que el valor de la propiedad sea un correo electrónico válido.
+- **@MinLength(min: number)**: Valida que la longitud mínima de una cadena de texto sea la especificada.
+- **@MaxLength(max: number)**: Valida que la longitud máxima de una cadena de texto no supere la especificada.
+- **@Min(min: number)**: Valida que el valor numérico sea al menos el valor especificado.
+- **@Max(max: number)**: Valida que el valor numérico no exceda el valor especificado.
+- **@IsOptional()**: Indica que la propiedad es opcional en la validación; si está presente, se aplican las demás reglas de validación.
+
+### Decoradores de Inyección de Dependencias
+
+- **@Injectable()**: Marca una clase como inyectable y registra su instancia en el contenedor de dependencias.
+- **@Inject(token: new () => T)**: Inyecta una dependencia en una propiedad de una clase utilizando el contenedor de dependencias.
+
+### Decoradores de Clases
+
+- **@Controller(basePath: string = '')**: Define una clase como un controlador de rutas, con un `basePath` opcional para agrupar rutas relacionadas.
+
+### Resolución de Dependencias
+
+- **resolveDependencies(constructor: Constructor<T>): T**: Función utilizada internamente para resolver las dependencias inyectadas en los constructores utilizando el contenedor de dependencias.
+
+Estos decoradores y funciones están diseñados para trabajar juntos en armonía, proporcionando una base sólida para la creación de aplicaciones backend robustas y escalables utilizando Bullwork.
 
 ## Instalación
 
