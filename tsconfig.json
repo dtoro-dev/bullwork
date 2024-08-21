@@ -15,8 +15,8 @@
       "@core/*": ["src/core/*"],
       "@config/*": ["src/config/*"],
       "@decorators/*": ["src/decorators/*"],
-      "@swagger/*": ["src/swagger/*"],
       "@types/*": ["src/types/*"],
+      "@swagger/*": ["src/swagger/*"],
     }
   },
   "include": ["src/**/*", "src/tests/**/*"],

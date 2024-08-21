@@ -1,6 +1,6 @@
 {
   "name": "bullwork",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Framework para backend",
   "main": "src/index.ts",
   "scripts": {
@@ -11,7 +11,8 @@
     "prisma:migrate:prod": "dotenv -e ./config/.env.production -- prisma migrate deploy --schema=src/orm/schema.prisma",
     "dev": "nodemon --watch ./src --ext ts --exec \"pnpm exec ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.development\"",
     "qa": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.qa",
-    "prod": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.production"
+    "prod": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/index.ts dotenv_config_path=./config/.env.production",
+    "build": "tsc"
   },
   "keywords": [
     "Framework",
