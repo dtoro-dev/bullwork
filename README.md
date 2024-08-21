@@ -85,7 +85,7 @@ Estos decoradores y funciones están diseñados para trabajar juntos en armonía
 Bullwork se utiliza a través de la [BullJS CLI](https://www.npmjs.com/package/bulljs-cli). Asegúrate de tener instalada la CLI de BullJS en tu máquina:
 
 ```bash
-npm install -g bulljs-cli
+npm install -g bulljs-cli pnpm
 ```
 
 ## Creación de un Nuevo Proyecto
@@ -132,7 +132,7 @@ Esta documentación incluirá todos los endpoints disponibles en tu proyecto. Ca
 bull run dev
 ```
 
- - Genera un nuevo módulo en el proyecto.
+ - Genera un nuevo módulo en el proyecto. Al crear un nuevo módulo, BullJS CLI te preguntará lo siguiente: `Do you want to setup a module? (y/N)`. Esta opción te permite elegir si deseas configurar el módulo con una estructura modular, agrupando controladores, servicios, y otros componentes relacionados en un solo módulo.
 ```bash
 bull run generate:module <module-name>
 ```
@@ -164,18 +164,20 @@ bull remove <dependency-name>
 
 ## Changelog
 
-### Versión 1.0.2
-- **Nuevo**: Implementación de decoradores personalizados como `@Body`, `@Param`, etc.
-- **Mejora**: Eliminación de archivos de rutas independientes; las rutas ahora son gestionadas automáticamente por los decoradores.
-- **Corrección**: Resolución de un problema con la inyección de dependencias en servicios.
+### Versión 1.0.3
 
-## Actualización a la versión 1.0.2
+ - **Nuevo**: Implementación de decoradores @Module y @Configurable para una mejor organización y configuración de módulos.
+ - **Mejora**: Gestión dinámica de módulos que permite agregar o eliminar módulos con actualización automática del archivo app.module.ts.
+ - **Corrección**: Mejoras en la validación y gestión de dependencias inyectadas.
+
+## Actualización a la versión 1.0.3
 
 1. Actualiza tus dependencias:
 ```bash
-npm install bullwork@1.0.2 bulljs-cli@1.0.6
+npm install bullwork@1.0.3 bulljs-cli@1.0.7
 ```
-2. Asegúrate de eliminar cualquier archivo de rutas independiente. Las rutas ahora son manejadas automáticamente por los decoradores en los controladores.
+
+2. Asegúrate de revisar la nueva gestión dinámica de módulos y cómo afecta a la organización de tu código.
 3. Revisa las nuevas funcionalidades en la documentación para aprovechar al máximo las mejoras.
 
 ## Notas de la Versión
