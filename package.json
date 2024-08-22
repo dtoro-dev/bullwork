@@ -1,6 +1,6 @@
 {
   "name": "bullwork",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Framework para backend",
   "main": "src/index.ts",
   "scripts": {

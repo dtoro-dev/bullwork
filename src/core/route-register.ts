@@ -67,8 +67,8 @@ export function registerRoutes(app: Application): void {
         const routerMethod = (router[method] as any).bind(router);
         routerMethod(path, routeHandler);
       });
-
-      app.use(basePath, router);
+      
+      app.use(`${global.config.apiEntryPoint}${basePath}`, router);
     }
   });
 }

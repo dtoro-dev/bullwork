@@ -1,4 +1,4 @@
-import { Constructor } from "./constructor.type";
+import { Constructor } from "./constructor.interface";
 
 export interface InjectedParameter {
   index: number;

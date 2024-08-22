@@ -12,3 +12,6 @@ export {
 } from "./params";
 export { Middleware } from "./middleware";
 export { Inject, Injectable, resolveDependencies } from "./injectable";
+export { DocProperty } from "./doc-property";
+export { Env } from "./env";
+export { IsString, IsInt, IsOptional, MinLength, Min, Max } from "./validation";

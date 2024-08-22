@@ -35,6 +35,11 @@ Bullwork es un framework ligero para backend basado en Node.js, Express, y TypeS
 
 Bullwork incluye un conjunto de decoradores personalizados para simplificar la gestión de rutas, parámetros, dependencias y validaciones en tu aplicación:
 
+### Swagger & Environment
+
+- **@DocProperty**: Documenta automáticamente las propiedades de un DTO en Swagger.
+- **@Environment**: Maneja las variables de entorno de manera centralizada en la clase `environment.config`.
+
 ### Decoradores de Métodos
 
 - **@Get(path: string)**: Define un endpoint HTTP GET en la ruta especificada.
@@ -135,11 +140,13 @@ bull run dev
  - Genera un nuevo módulo en el proyecto. Al crear un nuevo módulo, BullJS CLI te preguntará lo siguiente: `Do you want to setup a module? (y/N)`. Esta opción te permite elegir si deseas configurar el módulo con una estructura modular, agrupando controladores, servicios, y otros componentes relacionados en un solo módulo.
 ```bash
 bull run generate:module <module-name>
+bull run g:m <module-name>
 ```
 
  - Elimina un módulo existente del proyecto.
 ```bash
 bull run remove:module <module-name>
+bull run r:m <module-name>
 ```
 
  - Crear build
@@ -164,21 +171,47 @@ bull remove <dependency-name>
 
 ## Changelog
 
-### Versión 1.0.3
+### Versión 1.0.4
 
- - **Nuevo**: Implementación de decoradores @Module y @Configurable para una mejor organización y configuración de módulos.
- - **Mejora**: Gestión dinámica de módulos que permite agregar o eliminar módulos con actualización automática del archivo app.module.ts.
- - **Corrección**: Mejoras en la validación y gestión de dependencias inyectadas.
+- **Nuevo**: Implementación del decorador `@DocProperty` para manejar la documentación de propiedades en DTOs de manera automática.
+- **Mejora**: Se mejoró el contenedor de dependencias con mejor manejo de errores y soporte para instancias singleton.
+- **Nuevo**: Añadido el decorador `@Environment` para manejar configuraciones de entorno desde un archivo centralizado en la carpeta `config`. Acceso a estas variables mediante `global.config`.
+- **Nuevo**: Integración de un punto de entrada API (API Entry Point) `/api/v1` como base para todas las rutas documentadas en Swagger.
+- **Mejora**: Se añadió un `Swagger Loader` mejorado, que organiza automáticamente la documentación de Swagger y asocia los DTOs de ejemplo con `components/schemas`.
+- **Mejora**: La función `resolveDependencies` se ha optimizado para mejorar la resolución de dependencias de manera más eficiente y clara.
+- **Mejora**: El decorador `@Module` ha sido actualizado para mejorar la organización de módulos y su integración automática en `app.module.ts`.
+- **Mejora**: La documentación de Swagger ahora se genera en formato JSON para mayor compatibilidad y flexibilidad, eliminando errores relacionados con `components/schemas`.
 
-## Actualización a la versión 1.0.3
+## Nuevas Funcionalidades
+
+### Decorador `@DocProperty`
+El decorador `@DocProperty` permite la creación automática de documentación en Swagger para las propiedades de los DTOs. Esto facilita la generación de documentación más precisa y detallada.
+
+### Mejoras en el Contenedor de Dependencias
+El contenedor de dependencias ahora maneja mejor los errores y soporta instancias singleton, lo que mejora la eficiencia y la estabilidad de las inyecciones de dependencias.
+
+### Decorador `@Environment`
+El decorador `@Environment` permite la gestión centralizada de variables de entorno en un archivo `environment.config.ts` ubicado en la carpeta `config`. Las variables de entorno se pueden acceder fácilmente mediante `config`.
+
+### API Entry Point `/api/v1` (modificable)
+Todas las rutas de la API documentadas en Swagger ahora están centralizadas bajo el punto de entrada `/api/v1`, proporcionando una estructura más limpia y organizada para las rutas.
+
+### Swagger Loader Mejorado
+El nuevo `Swagger Loader` organiza y documenta automáticamente las rutas y esquemas de la API en Swagger, asociando los DTOs de ejemplo directamente con `components/schemas`. Esto reduce la necesidad de configuración manual y minimiza errores.
+
+### Configuración de Entornos
+
+Bullwork soporta múltiples entornos (desarrollo, QA, producción) a través de la clase `environment.config.ts`, que centraliza la configuración del entorno. Estas configuraciones se pueden definir en scripts `package.json` correspondientes y se acceden mediante `config`.
+
+## Actualización a la Versión 1.0.4
 
 1. Actualiza tus dependencias:
 ```bash
-npm install bullwork@1.0.3 bulljs-cli@1.0.7
+npm install bullwork@1.0.4 bulljs-cli@1.0.8
 ```
 
-2. Asegúrate de revisar la nueva gestión dinámica de módulos y cómo afecta a la organización de tu código.
-3. Revisa las nuevas funcionalidades en la documentación para aprovechar al máximo las mejoras.
+2. Revisa las nuevas funcionalidades, como @DocProperty, @Environment, y la organización de Swagger, para adaptarlas a tu proyecto.
+3. Configura las variables de entorno en `environment.config.ts` y accede a ellas mediante `config`.
 
 ## Notas de la Versión
 

@@ -1,6 +1,6 @@
 import Container from "@core/container";
-import { Constructor } from "src/types/constructor.type";
-import { InjectedParameter } from "src/types/injected.interface";
+import { Constructor } from "@interfaces/constructor.interface";
+import { InjectedParameter } from "@interfaces/injected.interface";
 
 const container = new Container();
 
@@ -22,15 +22,25 @@ export function Inject<T>(token: new () => T): PropertyDecorator {
 }
 
 export function resolveDependencies<T>(constructor: Constructor<T>): T {
-  const injectedParameters: InjectedParameter[] = Reflect.getMetadata('injectedParameters', constructor.prototype) || [];
+  // Obtener los tipos de parámetros del constructor a través de los metadatos de diseño
+  const paramTypes: Constructor<any>[] = Reflect.getMetadata('design:paramtypes', constructor) || [];
 
-  const args = injectedParameters
-    .sort((a: InjectedParameter, b: InjectedParameter) => a.index - b.index)
-    .map((param: InjectedParameter) => {
-      const instance = container.resolve(param.target);
-      console.log(`Resolved dependency: ${param.target.name} -> ${!!instance ? 'Instance found' : 'Instance not found'}`);
-      return instance;
-    });
+  // Crear una instancia de cada dependencia utilizando el contenedor
+  const dependencies = paramTypes.map((paramType, index) => {
+    try {
+      const resolvedDependency = container.resolve(paramType);
 
-  return new constructor(...args);
+      if (!resolvedDependency) {
+        throw new Error(`No se pudo resolver la dependencia en el índice ${index} para ${constructor.name}.`);
+      }
+
+      return resolvedDependency;
+    } catch (error) {
+      console.error(`Error al resolver la dependencia para ${paramType.name}:`, error);
+      throw new Error(`Fallo al resolver las dependencias para ${constructor.name}.`);
+    }
+  });
+
+  // Retornar una nueva instancia de la clase inyectada con las dependencias resueltas
+  return new constructor(...dependencies);
 }
