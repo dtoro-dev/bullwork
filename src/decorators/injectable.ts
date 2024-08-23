@@ -1,5 +1,5 @@
 import Container from "@core/container";
-import { Constructor } from "@interfaces/constructor.interface";
+import { Constructor } from "@interfaces/constructor.type";
 import { InjectedParameter } from "@interfaces/injected.interface";
 
 const container = new Container();

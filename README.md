@@ -39,6 +39,7 @@ Bullwork incluye un conjunto de decoradores personalizados para simplificar la g
 
 - **@DocProperty**: Documenta automáticamente las propiedades de un DTO en Swagger.
 - **@Environment**: Maneja las variables de entorno de manera centralizada en la clase `environment.config`.
+- **@Middleware**: Permite ejecutar un código especifico antes de que una ruta sea procesada por su controlador.
 
 ### Decoradores de Métodos
 
@@ -69,6 +70,14 @@ Bullwork incluye varios decoradores de validación para asegurar que los datos r
 - **@Min(min: number)**: Valida que el valor numérico sea al menos el valor especificado.
 - **@Max(max: number)**: Valida que el valor numérico no exceda el valor especificado.
 - **@IsOptional()**: Indica que la propiedad es opcional en la validación; si está presente, se aplican las demás reglas de validación.
+- **@IsBoolean()**: Valida que la propiedad sea un valor booleano (true o false).
+- **@IsNumber()**: Valida que la propiedad sea un número.
+- **@IsDate()**: Valida que la propiedad sea una fecha válida.
+- **@IsArray()**: Valida que la propiedad sea un arreglo.
+- **@ArrayNotEmpty()**: Valida que el arreglo no esté vacío.
+- **@IsEnum(enumType: object)**: Valida que la propiedad sea un valor de un enumerado específico.
+- **@Matches(regex: RegExp)**: Valida que la propiedad coincida con un patrón regex.
+- **@IsUUID()**: Valida que la propiedad sea un UUID válido.
 
 ### Decoradores de Inyección de Dependencias
 
@@ -78,6 +87,161 @@ Bullwork incluye varios decoradores de validación para asegurar que los datos r
 ### Decoradores de Clases
 
 - **@Controller(basePath: string = '')**: Define una clase como un controlador de rutas, con un `basePath` opcional para agrupar rutas relacionadas.
+
+## Nuevos Decoradores en Bullwork
+
+Bullwork ahora incluye una serie de decoradores avanzados que permiten un manejo más sofisticado de la lógica de tu aplicación. A continuación se describen los decoradores agregados junto con ejemplos prácticos de cómo utilizarlos en tu proyecto.
+
+### Decorador `@Cacheable`
+Permite almacenar en caché el resultado de un método. Cuando el método es invocado nuevamente con los mismos parámetros, se devuelve el resultado en caché en lugar de volver a ejecutar el método.
+
+#### Uso
+```typescript
+import { Cacheable } from '@decorators/cacheable';
+
+@Controller('/items')
+class ItemController {
+  constructor(private readonly itemService: ItemService) {}
+
+  @Get('/')
+  @Cacheable()
+  async getAllItems(): Promise<Item[]> {
+    return await this.itemService.findAll();
+  }
+}
+```
+
+### Decorador `@Throttle`
+Limita la cantidad de veces que un método puede ser llamado en un período de tiempo específico. Es útil para prevenir el abuso de ciertos endpoints.
+
+#### Uso
+```typescript
+import { Throttle } from '@decorators/throttle';
+
+@Controller('/api')
+class ApiController {
+  constructor(private readonly apiService: ApiService) {}
+
+  @Get('/data')
+  @Throttle(10, 60) // Permite 10 solicitudes por minuto
+  async fetchData(): Promise<any> {
+    return await this.apiService.getData();
+  }
+}
+```
+
+### Decorador `@Timeout`
+Define un tiempo límite para la ejecución de un método. Si el método no se completa dentro del tiempo especificado, se devuelve un error.
+
+#### Uso
+```typescript
+import { Timeout } from '@decorators/timeout';
+
+@Controller('/tasks')
+class TaskController {
+  constructor(private readonly taskService: TaskService) {}
+
+  @Post('/execute')
+  @Timeout(5000) // Tiempo límite de 5 segundos
+  async executeTask(): Promise<any> {
+    return await this.taskService.runTask();
+  }
+}
+```
+
+### Decorador `@Authorize`
+Requiere que un usuario esté autenticado o tenga ciertos permisos antes de acceder a un método. Ideal para proteger rutas sensibles.
+
+#### Uso
+```typescript
+import { Authorize } from '@decorators/authorize';
+
+@Controller('/admin')
+class AdminController {
+  constructor(private readonly adminService: AdminService) {}
+
+  @Get('/dashboard')
+  @Authorize(['admin', 'superuser']) // Solo accesible para roles admin y superuser
+  async getDashboard(): Promise<any> {
+    return await this.adminService.getDashboardData();
+  }
+}
+```
+
+### Decorador `@Transaction`
+Encapsula la ejecución de un método en una transacción de base de datos. Si algo falla durante la ejecución, todos los cambios en la base de datos se revierten.
+
+#### Uso
+```typescript
+import { Transaction } from '@decorators/transaction';
+
+@Controller('/payments')
+class PaymentController {
+  constructor(private readonly paymentService: PaymentService) {}
+
+  @Post('/process')
+  @Transaction()
+  async processPayment(@Body() paymentDto: PaymentDto): Promise<any> {
+    return await this.paymentService.process(paymentDto);
+  }
+}
+```
+
+### Decorador `@Schedule`
+Define un método para que se ejecute de forma programada en intervalos de tiempo específicos, como un cron job.
+
+#### Uso
+```typescript
+import { Schedule } from '@decorators/schedule';
+
+@Controller('/reports')
+class ReportController {
+  constructor(private readonly reportService: ReportService) {}
+
+  @Schedule('0 0 * * *') // Ejecuta todos los días a medianoche
+  async generateDailyReport(): Promise<void> {
+    await this.reportService.generateDaily();
+  }
+}
+```
+
+### Decorador `@Retry`
+Intenta ejecutar un método varias veces en caso de que falle. Es útil para operaciones que pueden fallar temporalmente, como llamadas a APIs externas.
+
+#### Uso
+```typescript
+import { Retry } from '@decorators/retry';
+
+@Controller('/notifications')
+class NotificationController {
+  constructor(private readonly notificationService: NotificationService) {}
+
+  @Post('/send')
+  @Retry(3) // Intenta hasta 3 veces en caso de fallo
+  async sendNotification(@Body() notificationDto: NotificationDto): Promise<void> {
+    await this.notificationService.send(notificationDto);
+  }
+}
+```
+
+### Decorador `@CircuitBreaker`
+Implementa un patrón de cortocircuito que evita llamadas repetidas a un servicio o método que está fallando continuamente, protegiendo así tu aplicación.
+
+#### Uso
+```typescript
+import { CircuitBreaker } from '@decorators/circuit-breaker';
+
+@Controller('/api')
+class ApiController {
+  constructor(private readonly apiService: ApiService) {}
+
+  @Get('/external-data')
+  @CircuitBreaker({ failureThreshold: 5, resetTimeout: 10000 })
+  async fetchExternalData(): Promise<any> {
+    return await this.apiService.getExternalData();
+  }
+}
+```
 
 ### Resolución de Dependencias
 

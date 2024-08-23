@@ -8,4 +8,4 @@ const server = new Server();
 registerRoutes(server.getApp());
 setupSwagger(server.getApp());
 
-server.start(global.config.port);
+server.start(config.port);
