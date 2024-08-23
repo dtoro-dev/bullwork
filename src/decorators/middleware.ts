@@ -1,13 +1,26 @@
 import "reflect-metadata";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from 'express';
 
-export function Middleware(middleware: Function): MethodDecorator {
-  return (target, propertyKey) => {
-    const middlewares = Reflect.getMetadata("middlewares", target) || [];
-    middlewares.push({ middleware, handler: propertyKey });
-    Reflect.defineMetadata("middlewares", middlewares, target);
+export function Middleware(middlewareName: keyof any): MethodDecorator {
+  return (target, propertyKey, descriptor) => {
+    const middlewares = Reflect.getMetadata("middlewares", target, propertyKey) || [];
+
+    const boundMiddleware = function (this: any, req: Request, res: Response, next: NextFunction) {
+      const instance = this as any;
+      const method = instance[middlewareName];
+      
+      if (typeof method === "function") {
+        method.call(instance, req, res, next);
+      } else {
+        throw new Error(`Middleware method ${String(middlewareName)} not found`);
+      }
+    };
+
+    middlewares.push(boundMiddleware.bind(target));
+    Reflect.defineMetadata("middlewares", middlewares, target, propertyKey);
   };
 }
+
 
 export function resolveParams(
   target: any,

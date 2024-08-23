@@ -15,10 +15,14 @@
       "@core/*": ["src/core/*"],
       "@config/*": ["src/config/*"],
       "@decorators/*": ["src/decorators/*"],
-      "@types/*": ["src/types/*"],
       "@swagger/*": ["src/swagger/*"],
+      "@interfaces/*": ["src/interfaces/*"],
     }
   },
-  "include": ["src/**/*", "src/tests/**/*"],
+  "ts-node": {
+    "files": true
+  },
+  "typeRoots": ["./global.d.ts"],
+  "include": ["src/**/*", "src/tests/**/*", "global.d.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

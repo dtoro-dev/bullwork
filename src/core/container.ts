@@ -1,18 +1,29 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 
 class Container {
   private services = new Map();
 
-  register<T>(token: new () => T, instance: T) {
-    this.services.set(token, instance);
+  register<T>(token: new () => T, instanceOrProvider: T | (() => T)) {
+    if (typeof instanceOrProvider === "function") {
+      this.services.set(token, { provider: instanceOrProvider });
+    } else {
+      this.services.set(token, { instance: instanceOrProvider });
+    }
   }
 
   resolve<T>(token: new () => T): T {
-    const instance = this.services.get(token);
-    if (!instance) {
-      throw new Error(`No instance found for ${token.name}`);
+    const serviceEntry = this.services.get(token);
+
+    if (!serviceEntry) {
+      throw new Error(`No instance or provider found for ${token.name}`);
     }
-    return instance;
+
+    if (!serviceEntry.instance) {
+      serviceEntry.instance = serviceEntry.provider();
+      this.services.set(token, serviceEntry);
+    }
+
+    return serviceEntry.instance;
   }
 }
 

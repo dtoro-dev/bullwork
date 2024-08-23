@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 function createMethodDecorator(method: string) {
   return function(path: string): MethodDecorator {
     return (target, propertyKey) => {
