@@ -335,6 +335,9 @@ bull remove <dependency-name>
 
 ## Changelog
 
+### Versión 1.0.5
+- **Mejora**: Implementacion de mejoras para decoradores de middleware.
+
 ### Versión 1.0.4
 
 - **Nuevo**: Implementación del decorador `@DocProperty` para manejar la documentación de propiedades en DTOs de manera automática.
