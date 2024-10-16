@@ -21,6 +21,14 @@ export function Middleware(middlewareName: keyof any): MethodDecorator {
   };
 }
 
+export function UseMiddleware(middleware: (req: Request, res: Response, next: NextFunction) => void): MethodDecorator {
+  return (target, propertyKey, descriptor) => {
+    const middlewares = Reflect.getMetadata("middlewares", target, propertyKey) || [];
+    middlewares.push(middleware);
+
+    Reflect.defineMetadata("middlewares", middlewares, target, propertyKey);
+  };
+}
 
 export function resolveParams(
   target: any,
