@@ -296,11 +296,6 @@ http://localhost:5000/api-docs
 
 Esta documentación incluirá todos los endpoints disponibles en tu proyecto. Cada vez que generes un nuevo módulo, Swagger actualizará automáticamente la documentación para reflejar los endpoints CRUD del módulo creado.
 
- - Inicia el entorno de desarrollo.
-```bash
-bull run dev
-```
-
  - Genera un nuevo módulo en el proyecto. Al crear un nuevo módulo, BullJS CLI te preguntará lo siguiente: `Do you want to setup a module? (y/N)`. Esta opción te permite elegir si deseas configurar el módulo con una estructura modular, agrupando controladores, servicios, y otros componentes relacionados en un solo módulo.
 ```bash
 bull run generate:module <module-name>
@@ -328,6 +323,47 @@ bull install <dependency-name>
 bull remove <dependency-name>
 ```
 
+## Proceso de implementación de base de datos con Prisma
+
+ - Crear los modelos necesarios en el archivo de prisma en `/src/orm/schema.prisma`.
+
+```prisma
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "/node_modules/.prisma/client"
+}
+
+// Define your schema here.
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
+```
+
+ - Luego ejecutar la validación, este comando tomara la configuración del archivo `.env.development` por defecto, ademas de utilizar el archivo `schema.prisma`.
+
+```bash
+bull run prisma:validate
+```
+
+ - Ejecuta comando de generate para que prisma cree los modelos.
+
+```bash
+bull run prisma:generate
+```
+
+ - Finalizando con la migración, esta solicitara que se ingrese el nombre de la migración.
+
+```bash
+bull run prisma:migrate:dev
+```
+
 ### Requisitos
 
 - Node.js >= 20.15.1 (LTS)
@@ -335,8 +371,11 @@ bull remove <dependency-name>
 
 ## Changelog
 
+### Versión 1.0.6
+- **Mejora**: Uso de base de datos con prisma, ademas, se agrego documentacion del proceso para el uso de prisma con un ejemplo en sqlite.
+
 ### Versión 1.0.5
-- **Mejora**: Implementacion de mejoras para decoradores de middleware.
+- **Mejora**: Implementación de mejoras para decoradores de middleware.
 
 ### Versión 1.0.4
 
