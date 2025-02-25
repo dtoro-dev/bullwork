@@ -22,10 +22,8 @@ export function Inject<T>(token: new () => T): PropertyDecorator {
 }
 
 export function resolveDependencies<T>(constructor: Constructor<T>): T {
-  // Obtener los tipos de parámetros del constructor a través de los metadatos de diseño
   const paramTypes: Constructor<any>[] = Reflect.getMetadata('design:paramtypes', constructor) || [];
 
-  // Crear una instancia de cada dependencia utilizando el contenedor
   const dependencies = paramTypes.map((paramType, index) => {
     try {
       const resolvedDependency = container.resolve(paramType);
@@ -40,7 +38,6 @@ export function resolveDependencies<T>(constructor: Constructor<T>): T {
       throw new Error(`Fallo al resolver las dependencias para ${constructor.name}.`);
     }
   });
-
-  // Retornar una nueva instancia de la clase inyectada con las dependencias resueltas
+  
   return new constructor(...dependencies);
 }

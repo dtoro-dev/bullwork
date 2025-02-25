@@ -18,11 +18,9 @@ export class Server {
       allowedHeaders: ['Content-Type', 'Authorization'],
     }));
 
-    // Register the requestLogger middleware here
     this.app.use(this.requestLogger);
   }
 
-  // Define the requestLogger middleware as a method
   private requestLogger(req: express.Request, res: express.Response, next: express.NextFunction) {
     const start = Date.now();
     res.on('finish', () => {

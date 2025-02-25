@@ -21,6 +21,6 @@ class Config {
   public apiEntryPoint!: string;
 }
 
-global.config = new Config(); // Asignar `config` al objeto global
+global.config = new Config();
 
 export default Config;
