@@ -16,7 +16,7 @@ export function CircuitBreaker(failureThreshold: number, resetTimeout: number): 
 
       try {
         const result = await originalMethod.apply(this, args);
-        failureCount = 0; // Reset failure count on success
+        failureCount = 0;
         return result;
       } catch (error) {
         failureCount++;

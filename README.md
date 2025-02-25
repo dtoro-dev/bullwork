@@ -388,6 +388,15 @@ bull run prisma:migrate:dev
 - **Mejora**: El decorador `@Module` ha sido actualizado para mejorar la organización de módulos y su integración automática en `app.module.ts`.
 - **Mejora**: La documentación de Swagger ahora se genera en formato JSON para mayor compatibilidad y flexibilidad, eliminando errores relacionados con `components/schemas`.
 
+### Versión 1.0.7
+
+- **Comentarios**: Eliminando.
+- **Mejora**: Se incorpora .npmignore.
+- **Nuevo**: Creación de seeds en prisma
+```bash 
+bull run seed
+```
+
 ## Nuevas Funcionalidades
 
 ### Decorador `@DocProperty`
@@ -409,11 +418,11 @@ El nuevo `Swagger Loader` organiza y documenta automáticamente las rutas y esqu
 
 Bullwork soporta múltiples entornos (desarrollo, QA, producción) a través de la clase `environment.config.ts`, que centraliza la configuración del entorno. Estas configuraciones se pueden definir en scripts `package.json` correspondientes y se acceden mediante `config`.
 
-## Actualización a la Versión 1.0.4
+## Actualización a la Versión 1.0.7
 
 1. Actualiza tus dependencias:
 ```bash
-npm install bullwork@1.0.4 bulljs-cli@1.0.8
+npm install bullwork@1.0.7 bulljs-cli@1.0.8
 ```
 
 2. Revisa las nuevas funcionalidades, como @DocProperty, @Environment, y la organización de Swagger, para adaptarlas a tu proyecto.
