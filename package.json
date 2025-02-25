@@ -1,10 +1,11 @@
 {
   "name": "bullwork",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Framework para backend",
   "main": "src/index.ts",
   "scripts": {
     "test": "jest --detectOpenHandles",
+    "seed": "dotenv -e ./config/.env.development -- ts-node src/orm/seed.ts",
     "prisma:init": "dotenv -e ./config/.env.development -- prisma init --schema=src/orm/schema.prisma",
     "prisma:validate": "dotenv -e ./config/.env.development -- prisma validate --schema=src/orm/schema.prisma",
     "prisma:generate": "dotenv -e ./config/.env.development -- prisma generate --schema=src/orm/schema.prisma",
@@ -52,5 +53,14 @@
     "ts-jest": "^29.2.5",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.3"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@prisma/engines",
+      "prisma"
+    ],
+    "onlyBuiltDependencies": [
+      "@prisma/client"
+    ]
   }
 }

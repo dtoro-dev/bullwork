@@ -6,7 +6,7 @@ class InMemoryCacheStore implements CacheStore {
     if (cacheEntry && cacheEntry.expiry > Date.now()) {
       return cacheEntry.value;
     }
-    this.store.delete(key); // Remove expired cache
+    this.store.delete(key);
     return null;
   }
 

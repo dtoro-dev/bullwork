@@ -4,12 +4,10 @@ import { ModuleOptions } from '@interfaces/module.interface';
 import { Constructor } from '@interfaces/constructor.type';
 import { resolveDependencies } from './injectable';
 
-// Instancia del contenedor de dependencias
 const container = new Container();
 
 export function Module(options: ModuleOptions): ClassDecorator {
   return (target: Function) => {
-    // Registra los controladores y proveedores en el contenedor
     if (options.providers) {
       options.providers.forEach((provider: Constructor<any>) => {
         container.register(provider, resolveDependencies(provider));
@@ -22,7 +20,6 @@ export function Module(options: ModuleOptions): ClassDecorator {
       });
     }
 
-    // Manejo de módulos importados
     if (options.imports) {
       options.imports.forEach((importedModule: Constructor<any>) => {
         const providers = Reflect.getMetadata('providers', importedModule) || [];
@@ -38,7 +35,6 @@ export function Module(options: ModuleOptions): ClassDecorator {
       });
     }
 
-    // Define los metadatos para el módulo
     Reflect.defineMetadata('controllers', options.controllers || [], target);
     Reflect.defineMetadata('providers', options.providers || [], target);
     Reflect.defineMetadata('imports', options.imports || [], target);
