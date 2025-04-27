@@ -1,12 +1,12 @@
-import Container from "@core/container";
-import { Constructor } from "@interfaces/constructor.type";
-import { InjectedParameter } from "@interfaces/injected.interface";
+import Container from "../core/container";
+import { Constructor } from "../interfaces/constructor.type";
 
 const container = new Container();
 
 export function Injectable(): ClassDecorator {
   return (target: any) => {
     const instance = resolveDependencies(target);
+    
     container.register(target, instance);
   };
 }
@@ -23,7 +23,7 @@ export function Inject<T>(token: new () => T): PropertyDecorator {
 
 export function resolveDependencies<T>(constructor: Constructor<T>): T {
   const paramTypes: Constructor<any>[] = Reflect.getMetadata('design:paramtypes', constructor) || [];
-
+  
   const dependencies = paramTypes.map((paramType, index) => {
     try {
       const resolvedDependency = container.resolve(paramType);

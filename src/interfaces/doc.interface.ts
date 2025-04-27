@@ -1,10 +1,10 @@
-interface DocPropertyOptions {
+export interface DocPropertyOptions {
   description: string;
   example: any;
   required?: boolean;
   type: Function;
 }
 
-interface DocProperties {
+export interface DocProperties {
   [key: string]: DocPropertyOptions;
 }

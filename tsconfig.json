@@ -15,7 +15,6 @@
     "paths": {
       "@app/*": ["src/app/*"],
       "@core/*": ["src/core/*"],
-      "@config/*": ["src/config/*"],
       "@decorators/*": ["src/decorators/*"],
       "@swagger/*": ["src/swagger/*"],
       "@interfaces/*": ["src/interfaces/*"],
@@ -24,7 +23,6 @@
   "ts-node": {
     "files": true
   },
-  "typeRoots": ["./global.d.ts"],
-  "include": ["src/**/*", "src/tests/**/*", "global.d.ts"],
+  "include": ["src/**/*", "src/tests/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

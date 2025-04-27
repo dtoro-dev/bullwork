@@ -1,5 +1,0 @@
-{
-  "watch": ["src"],
-  "ext": "ts,js,json",
-  "exec": "pnpm exec ts-node -r tsconfig-paths/register -r dotenv/config ./index.ts dotenv_config_path=./config/.env.development"
-}

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-import { EnvOptions } from '@interfaces/env.interface';
+import { EnvOptions } from '../interfaces/env.interface';
 
 export function Env<T = string>(
   envVarName: string,
