@@ -1,11 +1,54 @@
-import '@core/environment.config';
-import { Server } from '@core/server';
-import { setupSwagger } from "@swagger/swagger";
-import { registerRoutes } from '@core/route-register';
-
-const server = new Server();
-
-registerRoutes(server.getApp());
-setupSwagger(server.getApp());
-
-server.start(config.port);
+export { Server } from "./core/server";
+export { registerRoutes } from "./core/route-register";
+export { setupSwagger, SwaggerDocument } from "./swagger/swagger";
+export { bootstrap } from "./core/bootstrap";
+export {
+  Module,
+  Env,
+  Controller,
+  Private,
+  Public,
+  Get,
+  Post,
+  Put,
+  Patch,
+  Delete,
+  Res,
+  Req,
+  Param,
+  Query,
+  Body,
+  Headers,
+  Cookies,
+  Files,
+  Session,
+  IsString,
+  IsInt,
+  IsEmail,
+  MinLength,
+  MaxLength,
+  Min,
+  Max,
+  IsOptional,
+  IsBoolean,
+  IsNumber,
+  IsDate,
+  IsArray,
+  ArrayNotEmpty,
+  IsEnum,
+  Matches,
+  IsUUID,
+  Authorize,
+  Cacheable,
+  CircuitBreaker,
+  Configurable,
+  DocProperty,
+  Injectable,
+  Inject,
+  Middleware,
+  UseMiddleware,
+  Retry,
+  Schedule,
+  Throttle,
+  Timeout,
+} from "./decorators/index";

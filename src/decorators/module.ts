@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import Container from '@core/container';
-import { ModuleOptions } from '@interfaces/module.interface';
-import { Constructor } from '@interfaces/constructor.type';
+import Container from '../core/container';
+import { ModuleOptions } from '../interfaces/module.interface';
+import { Constructor } from '../interfaces/constructor.type';
 import { resolveDependencies } from './injectable';
 
 const container = new Container();

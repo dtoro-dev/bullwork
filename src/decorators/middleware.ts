@@ -1,18 +1,26 @@
 import "reflect-metadata";
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
 export function Middleware(middlewareName: keyof any): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const middlewares = Reflect.getMetadata("middlewares", target, propertyKey) || [];
+    const middlewares =
+      Reflect.getMetadata("middlewares", target, propertyKey) || [];
 
-    const boundMiddleware = function (this: any, req: Request, res: Response, next: NextFunction) {
+    const boundMiddleware = function (
+      this: any,
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ) {
       const instance = this as any;
       const method = instance[middlewareName];
-      
+
       if (typeof method === "function") {
         method.call(instance, req, res, next);
       } else {
-        throw new Error(`Middleware method ${String(middlewareName)} not found`);
+        throw new Error(
+          `Middleware method ${String(middlewareName)} not found`
+        );
       }
     };
 
@@ -21,9 +29,12 @@ export function Middleware(middlewareName: keyof any): MethodDecorator {
   };
 }
 
-export function UseMiddleware(middleware: (req: Request, res: Response, next: NextFunction) => void): MethodDecorator {
+export function UseMiddleware(
+  middleware: (req: Request, res: Response, next: NextFunction) => void
+): MethodDecorator {
   return (target, propertyKey, descriptor) => {
-    const middlewares = Reflect.getMetadata("middlewares", target, propertyKey) || [];
+    const middlewares =
+      Reflect.getMetadata("middlewares", target, propertyKey) || [];
     middlewares.push(middleware);
 
     Reflect.defineMetadata("middlewares", middlewares, target, propertyKey);
@@ -34,7 +45,8 @@ export function resolveParams(
   target: any,
   methodName: string,
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): any[] {
   const methodParams = Reflect.getMetadata("params", target, methodName) || [];
   const params = new Array(methodParams.length);
@@ -48,16 +60,14 @@ export function resolveParams(
         params[param.index] = req.query[param.name];
         break;
       case "body":
-        const dtoInstance = new param.dtoClass();
+        const dtoInstance = Object.assign(new param.dtoClass(), req.body);
         const errors = validateDto(dtoInstance);
-        
-        Object.assign(dtoInstance, req.body);
 
         if (errors.length > 0) {
           res.status(400).json({ errors });
           return null;
         }
-        
+
         params[param.index] = dtoInstance;
         break;
       case "res":
@@ -81,9 +91,10 @@ export function resolveParams(
 
 function validateDto(dtoInstance: any): string[] {
   const errors: string[] = [];
-
+  
   for (const propertyKey in dtoInstance) {
-    const validations = Reflect.getMetadata("validations", dtoInstance, propertyKey) || [];
+    const validations =
+      Reflect.getMetadata("validations", dtoInstance, propertyKey) || [];
 
     const value = dtoInstance[propertyKey];
 
@@ -118,12 +129,16 @@ function validateDto(dtoInstance: any): string[] {
           break;
         case "minLength":
           if (typeof value === "string" && value.length < validation.value) {
-            errors.push(`${propertyKey} must be at least ${validation.value} characters long.`);
+            errors.push(
+              `${propertyKey} must be at least ${validation.value} characters long.`
+            );
           }
           break;
         case "maxLength":
           if (typeof value === "string" && value.length > validation.value) {
-            errors.push(`${propertyKey} must be no more than ${validation.value} characters long.`);
+            errors.push(
+              `${propertyKey} must be no more than ${validation.value} characters long.`
+            );
           }
           break;
         case "min":
@@ -133,7 +148,9 @@ function validateDto(dtoInstance: any): string[] {
           break;
         case "max":
           if (typeof value === "number" && value > validation.value) {
-            errors.push(`${propertyKey} must be no more than ${validation.value}.`);
+            errors.push(
+              `${propertyKey} must be no more than ${validation.value}.`
+            );
           }
           break;
         default:

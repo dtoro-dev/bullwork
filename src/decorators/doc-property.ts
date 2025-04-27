@@ -1,3 +1,4 @@
+import { DocProperties, DocPropertyOptions } from '../interfaces/doc.interface';
 import 'reflect-metadata';
 
 export function DocProperty(options: DocPropertyOptions): PropertyDecorator {

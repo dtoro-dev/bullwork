@@ -1,4 +1,8 @@
-function Cacheable(duration: number, cacheStore: CacheStore = new InMemoryCacheStore()): MethodDecorator {
+import { InMemoryCacheStore } from "../core/memory-cache-store";
+import { AsyncFunction } from "../interfaces/async.type";
+import { CacheStore } from "../interfaces/cache-store";
+
+export function Cacheable(duration: number, cacheStore: CacheStore = new InMemoryCacheStore()): MethodDecorator {
   return <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => {
     const originalMethod = descriptor.value as unknown as AsyncFunction;
 
@@ -16,4 +20,4 @@ function Cacheable(duration: number, cacheStore: CacheStore = new InMemoryCacheS
       return result;
     } as unknown as T;
   };
-}
+};

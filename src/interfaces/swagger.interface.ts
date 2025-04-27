@@ -1,4 +1,4 @@
-interface SwaggerDocument {
+export interface SwaggerDocument {
   openapi: string;
   info: {
     title: string;
