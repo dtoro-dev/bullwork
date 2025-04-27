@@ -23,6 +23,24 @@
 
 Bullwork es un framework ligero para backend basado en Node.js, Express, y TypeScript. Está diseñado para ofrecer una estructura sólida y escalable para aplicaciones web modernas, y se integra perfectamente con herramientas como Prisma y SQLite para la gestión de bases de datos.
 
+## 🧱 Arquitectura de Bullwork
+Bullwork está diseñado siguiendo una arquitectura modular y escalable, inspirada en conceptos de Clean Architecture, DDD (Domain-Driven Design) y prácticas modernas de frameworks como NestJS.
+
+### ✨ Principios que sigue Bullwork:
+Modular Monolith: cada módulo se estructura con sus propios controladores, servicios, DTOs, interfaces y documentación Swagger. Todo autocontenible y fácilmente escalable.
+
+**Arquitectura en Capas**: separación clara entre rutas (controladores), lógica (servicios) y persistencia (Prisma ORM).
+
+**Metaprogramación declarativa**: gracias a decoradores personalizados, puedes definir controladores, middlewares, validaciones y permisos de forma simple y poderosa.
+
+**Contenedor de Dependencias**: Bullwork implementa su propio sistema de inyección de dependencias (DI), facilitando pruebas, reutilización de lógica y escalabilidad.
+
+**Soporte para Decoradores Avanzados**: incluyendo @Authorize, @Schedule, @Retry, @Cacheable, @CircuitBreaker, entre otros.
+
+**Entry Point centralizado**: toda la API parte desde una entrada configurable (/api/v1 por defecto), y la documentación Swagger se genera automáticamente al registrar módulos.
+
+```⚡️ Bullwork es ideal para quienes buscan construir proyectos backend limpios, mantenibles y listos para escalar, sin sacrificar velocidad de desarrollo.```
+
 ## Características
 
 - **Arquitectura Modular**: Soporte para módulos que permiten una organización clara y escalable del código.
@@ -51,9 +69,9 @@ Bullwork incluye un conjunto de decoradores personalizados para simplificar la g
 
 ### Decoradores de Parámetros
 
-- **@Body(dtoClass: any)**: Extrae y valida el cuerpo de la solicitud basado en la clase DTO proporcionada.
-- **@Param(paramName: string)**: Extrae un parámetro de la ruta.
-- **@Query(paramName: string)**: Extrae parámetros de la query string.
+- **@Body()**: Extrae y valida el cuerpo de la solicitud basado en la clase DTO proporcionada.
+- **@Param()**: Extrae un parámetro de la ruta.
+- **@Query()**: Extrae parámetros de la query string.
 - **@Headers(headerName?: string)**: Extrae un header específico o todos los headers si no se especifica un nombre.
 - **@Res**: Inyecta el objeto de respuesta de Express, utilizando un decorador personalizado.
 - **@Req**: Inyecta el objeto de solicitud de Express, utilizando un decorador personalizado.
@@ -418,11 +436,11 @@ El nuevo `Swagger Loader` organiza y documenta automáticamente las rutas y esqu
 
 Bullwork soporta múltiples entornos (desarrollo, QA, producción) a través de la clase `environment.config.ts`, que centraliza la configuración del entorno. Estas configuraciones se pueden definir en scripts `package.json` correspondientes y se acceden mediante `config`.
 
-## Actualización a la Versión 1.0.7
+## Actualización a la Versión 2.0.0
 
 1. Actualiza tus dependencias:
 ```bash
-npm install bullwork@1.0.7 bulljs-cli@1.0.8
+npm install bullwork@2.0.0 bull@2.0.0
 ```
 
 2. Revisa las nuevas funcionalidades, como @DocProperty, @Environment, y la organización de Swagger, para adaptarlas a tu proyecto.

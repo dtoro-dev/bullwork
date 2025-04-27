@@ -1,4 +1,6 @@
-class InMemoryCacheStore implements CacheStore {
+import { CacheStore } from "../interfaces/cache-store";
+
+export class InMemoryCacheStore implements CacheStore {
   private store: Map<string, { value: any, expiry: number }> = new Map();
 
   async get(key: string): Promise<any | null> {
@@ -11,7 +13,7 @@ class InMemoryCacheStore implements CacheStore {
   }
 
   async set(key: string, value: any, duration: number): Promise<void> {
-    const expiry = Date.now() + duration * 1000; // Convertir a milisegundos
+    const expiry = Date.now() + duration * 1000;
     this.store.set(key, { value, expiry });
   }
 }
