@@ -4,7 +4,7 @@
   </a> 
 
 
-  # Bullwork Framework
+  ## Bullwork 2 - Fast Framework Backend 
 
   [![TypeScript](https://img.shields.io/badge/TypeScript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Node.js](https://img.shields.io/badge/Node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -58,6 +58,8 @@ Bullwork incluye un conjunto de decoradores personalizados para simplificar la g
 - **@DocProperty**: Documenta automáticamente las propiedades de un DTO en Swagger.
 - **@Environment**: Maneja las variables de entorno de manera centralizada en la clase `environment.config`.
 - **@Middleware**: Permite ejecutar un código especifico antes de que una ruta sea procesada por su controlador.
+- **@Public**: Declara un endpoint publico.
+- **@Private**: Declara un endpoint privado (en mantención en su defecto **@Middleware**)
 
 ### Decoradores de Métodos
 
@@ -106,7 +108,7 @@ Bullwork incluye varios decoradores de validación para asegurar que los datos r
 
 - **@Controller(basePath: string = '')**: Define una clase como un controlador de rutas, con un `basePath` opcional para agrupar rutas relacionadas.
 
-## Nuevos Decoradores en Bullwork
+## Custom Decoradores en Bullwork
 
 Bullwork ahora incluye una serie de decoradores avanzados que permiten un manejo más sofisticado de la lógica de tu aplicación. A continuación se describen los decoradores agregados junto con ejemplos prácticos de cómo utilizarlos en tu proyecto.
 
@@ -269,14 +271,14 @@ Estos decoradores y funciones están diseñados para trabajar juntos en armonía
 
 ## Instalación
 
-Bullwork se utiliza a través de la [BullJS CLI](https://www.npmjs.com/package/bulljs-cli). Asegúrate de tener instalada la CLI de BullJS en tu máquina:
+Bullwork en su nueva version es un package de npm.
 
 ```bash
-npm install -g bulljs-cli pnpm
+npm install bullwork
 ```
 
 ## Creación de un Nuevo Proyecto
-Para crear un nuevo proyecto utilizando Bullwork, ejecuta el siguiente comando:
+Para crear un nuevo proyecto basado Bullwork v2.0.0, debes instalar la CLI bull. Esta te permitira crear de manera automatica un proyecto con el framework bullwork v2.0.0.
 
 ```bash
 bull new
@@ -288,10 +290,41 @@ bull new project-name
 
 ### Esto hará lo siguiente:
 
-- Clonará el repositorio [bullwork](https://github.com/dtoro-dev/bullwork).
-- Instalará todas las dependencias necesarias utilizando pnpm.
-- Configurará el proyecto en una nueva carpeta con el nombre *project-name*.
-- Podrás utilizar los comandos del Bulljs-cli para crear y eliminar módulos.
+- 📂 Creará una nueva carpeta con el nombre del proyecto que indiques (o te preguntará si no lo especificas).
+
+- 🛠️ Generará automáticamente toda la estructura base necesaria para comenzar tu proyecto Bullwork v2.0.0.
+
+- 📜 Creará un archivo package.json inicializado y configurado con los scripts recomendados.
+
+- 🔧 Creará el archivo tsconfig.json configurado para trabajar con Bullwork y TypeScript.
+
+- 📄 Creará un archivo global.d.ts para la tipificación global de tu proyecto.
+
+- 📝 Creará un README.md inicial explicando el proyecto.
+
+- 🛡️ Generará automáticamente la estructura src/:
+
+- src/app/ (Vacío, donde irán los módulos)
+
+- src/orm/ (Con el archivo schema.prisma y seed.ts)
+
+- src/tests/ (Con un ejemplo básico example.test.ts)
+
+- src/main.ts (Punto de entrada del servidor)
+
+- src/environment.config.ts (Configuración de entorno)
+
+- 🔥 Instalará automáticamente las dependencias esenciales (bullwork, prisma, typescript, etc).
+
+- ⚙️ Creará una carpeta config/ con los archivos de entorno:
+
+  - env.development
+  - env.production
+  - env.qa
+
+📂 En la carpeta config/ se creara la base de datos cuando la inicialices.
+
+- 🚀 Dejará todo listo para que solo tengas que ejecutar ```bull dev``` y empezar a trabajar.
 
 ## Uso
 
@@ -299,6 +332,11 @@ bull new project-name
 
 Para levantar el entorno de desarrollo:
 
+```bash
+cd project-name
+bull dev
+```
+o
 ```bash
 cd project-name
 bull run dev
@@ -316,14 +354,15 @@ Esta documentación incluirá todos los endpoints disponibles en tu proyecto. Ca
 
  - Genera un nuevo módulo en el proyecto. Al crear un nuevo módulo, BullJS CLI te preguntará lo siguiente: `Do you want to setup a module? (y/N)`. Esta opción te permite elegir si deseas configurar el módulo con una estructura modular, agrupando controladores, servicios, y otros componentes relacionados en un solo módulo.
 ```bash
-bull run generate:module <module-name>
-bull run g:m <module-name>
+
+bull generate:module <module-name>
+bull g:m <module-name>
 ```
 
  - Elimina un módulo existente del proyecto.
 ```bash
-bull run remove:module <module-name>
-bull run r:m <module-name>
+bull remove:module <module-name>
+bull r:m <module-name>
 ```
 
  - Crear build
@@ -338,7 +377,7 @@ bull install <dependency-name>
 
  - Elimina una dependencia
 ```bash
-bull remove <dependency-name>
+bull uninstall <dependency-name>
 ```
 
 ## Proceso de implementación de base de datos con Prisma
@@ -364,22 +403,27 @@ model User {
 }
 ```
 
- - Luego ejecutar la validación, este comando tomara la configuración del archivo `.env.development` por defecto, ademas de utilizar el archivo `schema.prisma`.
+ - Inicializa la configuración de base de datos de prisma.
 
 ```bash
-bull run prisma:validate
+bull init
+```
+- Valida que la configuración este correcta.
+
+```bash
+bull prisma validate
 ```
 
- - Ejecuta comando de generate para que prisma cree los modelos.
+ - Ejecuta comando generate para que prisma incorpore los modelos a sus dependencias.
 
 ```bash
-bull run prisma:generate
+bull prisma generate
 ```
 
- - Finalizando con la migración, esta solicitara que se ingrese el nombre de la migración.
+ - Finalizando con la migración de configuración desarrollo, esta solicitara que se ingrese el nombre de la migración.
 
 ```bash
-bull run prisma:migrate:dev
+bull prisma migrate-dev
 ```
 
 ### Requisitos
@@ -387,64 +431,30 @@ bull run prisma:migrate:dev
 - Node.js >= 20.15.1 (LTS)
 - `pnpm` instalado globalmente.
 
-## Changelog
+## 📜 Changelog
+### Versión 2.0.0
+- **Bullwork ahora es una dependencia externa**:
 
-### Versión 1.0.6
-- **Mejora**: Uso de base de datos con prisma, ademas, se agrego documentacion del proceso para el uso de prisma con un ejemplo en sqlite.
+  Ya no forma parte del código fuente de tu proyecto. Esto mantiene tu estructura de carpetas mucho más limpia y enfocada solo en tu negocio.
 
-### Versión 1.0.5
-- **Mejora**: Implementación de mejoras para decoradores de middleware.
+- **Nueva CLI Bull v2.0.0 completamente reescrita en Rust**:
+  
+  Ahora Bull CLI está construida con Rust para ofrecer un rendimiento ultra rápido y una experiencia de desarrollo más profesional y estable.
 
-### Versión 1.0.4
+- **Generación optimizada de proyectos y módulos:**
 
-- **Nuevo**: Implementación del decorador `@DocProperty` para manejar la documentación de propiedades en DTOs de manera automática.
-- **Mejora**: Se mejoró el contenedor de dependencias con mejor manejo de errores y soporte para instancias singleton.
-- **Nuevo**: Añadido el decorador `@Environment` para manejar configuraciones de entorno desde un archivo centralizado en la carpeta `config`. Acceso a estas variables mediante `global.config`.
-- **Nuevo**: Integración de un punto de entrada API (API Entry Point) `/api/v1` como base para todas las rutas documentadas en Swagger.
-- **Mejora**: Se añadió un `Swagger Loader` mejorado, que organiza automáticamente la documentación de Swagger y asocia los DTOs de ejemplo con `components/schemas`.
-- **Mejora**: La función `resolveDependencies` se ha optimizado para mejorar la resolución de dependencias de manera más eficiente y clara.
-- **Mejora**: El decorador `@Module` ha sido actualizado para mejorar la organización de módulos y su integración automática en `app.module.ts`.
-- **Mejora**: La documentación de Swagger ahora se genera en formato JSON para mayor compatibilidad y flexibilidad, eliminando errores relacionados con `components/schemas`.
+  El nuevo comando bull new crea proyectos base listos para trabajar con Bullwork v2.0.0 en segundos. También puedes generar y eliminar módulos de forma más limpia y segura.
 
-### Versión 1.0.7
+- **Integración automática de Prisma:**
 
-- **Comentarios**: Eliminando.
-- **Mejora**: Se incorpora .npmignore.
-- **Nuevo**: Creación de seeds en prisma
-```bash 
-bull run seed
-```
+  El CLI gestiona automáticamente la creación de archivos schema.prisma, seed.ts y operaciones comunes de Prisma, manteniendo la configuración organizada.
 
-## Nuevas Funcionalidades
+- **Proyectos aún más minimalistas y escalables:**
 
-### Decorador `@DocProperty`
-El decorador `@DocProperty` permite la creación automática de documentación en Swagger para las propiedades de los DTOs. Esto facilita la generación de documentación más precisa y detallada.
+  Se promueve una estructura basada en módulos, tests automáticos básicos, y conexión inicial lista para bases de datos SQLite.
 
-### Mejoras en el Contenedor de Dependencias
-El contenedor de dependencias ahora maneja mejor los errores y soporta instancias singleton, lo que mejora la eficiencia y la estabilidad de las inyecciones de dependencias.
-
-### Decorador `@Environment`
-El decorador `@Environment` permite la gestión centralizada de variables de entorno en un archivo `environment.config.ts` ubicado en la carpeta `config`. Las variables de entorno se pueden acceder fácilmente mediante `config`.
-
-### API Entry Point `/api/v1` (modificable)
-Todas las rutas de la API documentadas en Swagger ahora están centralizadas bajo el punto de entrada `/api/v1`, proporcionando una estructura más limpia y organizada para las rutas.
-
-### Swagger Loader Mejorado
-El nuevo `Swagger Loader` organiza y documenta automáticamente las rutas y esquemas de la API en Swagger, asociando los DTOs de ejemplo directamente con `components/schemas`. Esto reduce la necesidad de configuración manual y minimiza errores.
-
-### Configuración de Entornos
-
-Bullwork soporta múltiples entornos (desarrollo, QA, producción) a través de la clase `environment.config.ts`, que centraliza la configuración del entorno. Estas configuraciones se pueden definir en scripts `package.json` correspondientes y se acceden mediante `config`.
-
-## Actualización a la Versión 2.0.0
-
-1. Actualiza tus dependencias:
-```bash
-npm install bullwork@2.0.0 bull@2.0.0
-```
-
-2. Revisa las nuevas funcionalidades, como @DocProperty, @Environment, y la organización de Swagger, para adaptarlas a tu proyecto.
-3. Configura las variables de entorno en `environment.config.ts` y accede a ellas mediante `config`.
+- **Experiencia de desarrollador mejorada:**
+  Feedback claro en consola con kleur, spinners con indicatif, y flujos automáticos para instalación de dependencias y configuración del entorno.
 
 ## Notas de la Versión
 
