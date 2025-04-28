@@ -43,6 +43,7 @@ export {
   CircuitBreaker,
   Configurable,
   DocProperty,
+  getDtoSchema,
   Injectable,
   Inject,
   Middleware,
