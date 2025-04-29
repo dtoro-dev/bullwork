@@ -31,7 +31,7 @@ export function loadSwaggerDocuments(
         for (const [pathKey, pathValue] of Object.entries(
           swaggerDocument.paths
         )) {
-          const newKey = `${env.apiEntryPoint}${pathKey}`;
+          const newKey = `${(global as any).apiEntryPoint}${pathKey}`;
           swaggerDocuments.paths[newKey] = pathValue;
         }
       }

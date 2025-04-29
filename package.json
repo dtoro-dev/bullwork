@@ -1,6 +1,6 @@
 {
   "name": "bullwork",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Framework para backend",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
