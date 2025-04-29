@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./bullwork-large.png" />
+  <img src="https://raw.githubusercontent.com/dtoro-dev/bullwork/refs/heads/main/bullwork-large.png" />
 
   ## ⚡Fast Framework Backend 
 
@@ -482,6 +482,6 @@ Diego Toro Reyes - GitHub
 
 <div align="center">
   <a href="https://dtoro-dev-portfolio.netlify.app/">
-    <img src="https://raw.githubusercontent.com/dtoro-dev/bullcli-site/refs/heads/master/src/assets/dtorodev-bg.png" width="400" />
+    <img src="https://github.com/dtoro-dev/bullcli-site/blob/master/src/assets/dtorodev-large.png?raw=true" />
   </a> 
 </div>
