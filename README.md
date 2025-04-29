@@ -1,10 +1,7 @@
 <div align="center">
-  <a href="https://dtoro-dev-portfolio.netlify.app/">
-    <img src="https://raw.githubusercontent.com/dtoro-dev/minimalist-portfolio/master/src/assets/logo-2.2.webp" height="90px" width="auto" style="background-color: #f2f1eb; border-radius: 10px; border: 3px solid #e8c538" />
-  </a> 
+  <img src="./bullwork-large.png" />
 
-
-  ## Bullwork 2 - Fast Framework Backend 
+  ## ⚡Fast Framework Backend 
 
   [![TypeScript](https://img.shields.io/badge/TypeScript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Node.js](https://img.shields.io/badge/Node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
@@ -271,14 +268,8 @@ Estos decoradores y funciones están diseñados para trabajar juntos en armonía
 
 ## Instalación
 
-Bullwork en su nueva version es un package de npm.
-
-```bash
-npm install bullwork
-```
-
 ## Creación de un Nuevo Proyecto
-Para crear un nuevo proyecto basado Bullwork v2.0.0, debes instalar la CLI bull. Esta te permitira crear de manera automatica un proyecto con el framework bullwork v2.0.0.
+Para crear un nuevo proyecto basado Bullwork v2.0.0, debes instalar la CLI [**bull**](). Esta te permitirá crear de manera automática un proyecto con el framework Bullwork v2.0.0.
 
 ```bash
 bull new
@@ -304,27 +295,39 @@ bull new project-name
 
 - 🛡️ Generará automáticamente la estructura src/:
 
-- src/app/ (Vacío, donde irán los módulos)
+  - src/app/ (Vacío, donde irán los módulos)
 
-- src/orm/ (Con el archivo schema.prisma y seed.ts)
+  - src/orm/ (Con el archivo schema.prisma y seed.ts)
 
-- src/tests/ (Con un ejemplo básico example.test.ts)
+  - src/tests/ (Con un ejemplo básico example.test.ts)
 
-- src/main.ts (Punto de entrada del servidor)
+  - src/main.ts (Punto de entrada del servidor)
 
-- src/environment.config.ts (Configuración de entorno)
+  - src/environment.config.ts (Configuración de entorno)
 
-- 🔥 Instalará automáticamente las dependencias esenciales (bullwork, prisma, typescript, etc).
+- 🔥 Te preguntara si deseas instalar las dependencias (bullwork, prisma, typescript, etc), de lo contrario puedes instalarlas con:
+
+  ```bash
+  bull install
+  ```
 
 - ⚙️ Creará una carpeta config/ con los archivos de entorno:
 
   - env.development
   - env.production
   - env.qa
+  - env.example
 
 📂 En la carpeta config/ se creara la base de datos cuando la inicialices.
 
 - 🚀 Dejará todo listo para que solo tengas que ejecutar ```bull dev``` y empezar a trabajar.
+
+- Para crear módulos utiliza el comando
+  ```bash
+  bull generate:module <name_module>
+  bull g:m <name_module> 
+  ```
+  Esto creara un directorio en /app y /test con el *<name_module>*, ademas de los archivos necesarios con endpoint de ejemplo. Puedes probar el endpoint con ```bull dev```
 
 ## Uso
 
@@ -476,3 +479,9 @@ Este proyecto está licenciado bajo la licencia MIT. Consulta el archivo LICENSE
 Diego Toro Reyes - GitHub
 
 ¡Gracias por usar BullJS CLI! Si tienes alguna pregunta o sugerencia, no dudes en abrir un issue en el repositorio de GitHub.
+
+<div align="center">
+  <a href="https://dtoro-dev-portfolio.netlify.app/">
+    <img src="https://raw.githubusercontent.com/dtoro-dev/bullcli-site/refs/heads/master/src/assets/dtorodev-bg.png" width="400" />
+  </a> 
+</div>

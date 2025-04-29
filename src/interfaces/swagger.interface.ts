@@ -1,4 +1,4 @@
-export interface SwaggerDocument {
+export type SwaggerDocument = {
   openapi: string;
   info: {
     title: string;
