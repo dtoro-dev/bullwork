@@ -269,7 +269,7 @@ Estos decoradores y funciones están diseñados para trabajar juntos en armonía
 ## Instalación
 
 ## Creación de un Nuevo Proyecto
-Para crear un nuevo proyecto basado Bullwork v2.0.0, debes instalar la CLI [**bull**](). Esta te permitirá crear de manera automática un proyecto con el framework Bullwork v2.0.0.
+Para crear un nuevo proyecto basado Bullwork v2.0.0, debes instalar la CLI [**bull**](https://dtoro-dev.github.io/bullcli-site/). Esta te permitirá crear de manera automática un proyecto con el framework Bullwork v2.0.0.
 
 ```bash
 bull new
